@@ -49,12 +49,19 @@ jobs:
           pattern: blob-reports-*
           merge-multiple: true
 
-      - name: Merge reports into HTML
-        run: npx playwright merge-reports --reporter html ./all-blob-reports
+      - name: Merge reports into HTML and Excel
+        run: npx playwright merge-reports --reporter html --reporter ./excel-reporter.js ./all-blob-reports
 
       - name: Upload final HTML report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report
+          retention-days: 30
+
+      - name: Upload final Excel report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-excel-report
+          path: playwright-test-results.xlsx
           retention-days: 30
